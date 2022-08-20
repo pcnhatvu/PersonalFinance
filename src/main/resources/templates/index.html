@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+	<title>Personal Finance</title>
+	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../css/index.css" rel="stylesheet"/>
+</head>
+<body>
+<body>
+	<div class="container-fluit">
+		<h5 style="color: red; text-align: center;">Personal Finance</h5>
+		<div style="text-align: center; padding-bottom: 20px;">
+			<form th:action="@{/index}" style="display: flex;">
+				<select class="form-control" id="year" th:name="year">
+				    <option th:value="2022" th:utext="2022"></option>
+				    <option th:value="2023" th:utext="2023"></option>
+				</select>
+				<select class="form-control" id="month" th:name="month">
+				    <option th:each="month : ${listMonthOfYear}" 
+				    	th:value="${month.key}" 
+				    	th:utext="${month.value}"
+				    	th:selected="${month.key == currentMonth}">January</option>
+				</select>
+				<button class="btn btn-default" type="submit">Submit</button>
+			</form>
+		</div>
+		
+		<div class="row" id="content">
+			<div class="col-md-4" th:each="category : ${listCategories}">
+				<table id="categories">
+					<thead>
+						<tr>
+							<th colspan="3" style="font-size: 18px;" th:text="${category.name}">Ăn</th>
+						</tr>
+						<tr>
+							<th style="width: 25%;">Thể loại ăn</th>
+							<th style="width: 30%;">Tổng tiền</th>
+							<th style="width: 45%;">Số tiền cộng thêm</th>
+						</tr>
+					</thead>
+					<tbody  th:id="'category' + ${category.id}">
+						<tr th:each="listCategoryDetail : ${category.listCategoryDetail}">
+							<td th:text="${listCategoryDetail.name}"></td>
+							<td th:id="'amountUsed' + ${listCategoryDetail.id}" th:text="${listCategoryDetail.asText()}"></td>
+							<td style="display: flex;">
+								<input style="width: 70%;" type="number" class="form-control" th:id="'plusMoney' + ${listCategoryDetail.id}" placeholder="Số tiền cộng thêm">
+								<button onclick="addMoneyByCategoryDetailIdBy(this);" th:value="${listCategoryDetail.id}" class="btn btn-primary btn-sm">Add</button>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<input type="text" class="form-control" th:id="'addNewCategory' + ${category.id}" placeholder="Category name">
+							</td>
+							<td>
+								<button onclick="addNewCategory(this);" th:value="${category.id}" class="btn btn-primary btn-sm">Add new category</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript">
+		function addMoneyByCategoryDetailIdBy(categoryDetailId) {
+		    var amount = $("#plusMoney" + categoryDetailId.value);
+		    $.ajax({
+		        type: 'POST',
+		        url: '/updatePriceByCategoryDetailId',
+		        data: { 
+		        	categoryDetailId: categoryDetailId.value,
+		        	amount: amount.val()
+		        },
+		        cache: false,
+		        success: function(result) {
+		        	$("#plusMoney" + categoryDetailId.value).val('');
+		        	$("#amountUsed" + categoryDetailId.value).text(result);
+		        }
+		    });
+		}
+		
+		function addNewCategory(categoryId) {
+		    var newCategoryName = $("#addNewCategory" + categoryId.value);
+		    var year = $("#year");
+		    var month = $("#month");
+		    
+		    $.ajax({
+		        type: 'POST',
+		        url: '/addNewCategoryBy',
+		        data: { 
+		        	categoryId: categoryId.value,
+		        	name: newCategoryName.val(),
+		        	month: month.val(),
+		        	year: year.val()
+		        },
+		        cache: false,
+		        success: function(result) {
+		        	const trCategoryListById = document.getElementById("category" + categoryId.value);
+		        	var tr = document.createElement('tr');
+		        	tr.innerHTML = `
+		        		<tr>
+							<td>${result.name}</td>
+							<td id="amountUsed${result.id}">0</td>
+							<td style="display: flex;">
+								<input style="width: 70%;" type="number" class="form-control" id="plusMoney${result.id}" placeholder="Số tiền cộng thêm">
+								<button onclick="addMoneyByCategoryDetailIdBy(this);" value="${result.id}" class="btn btn-primary btn-sm">Add</button>
+							</td>
+						</tr>
+		        	`
+		        	trCategoryListById.append(tr)
+		        }
+		    });
+		}
+	</script>
+	
+</body>
+</html>

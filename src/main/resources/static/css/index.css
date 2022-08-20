@@ -1,0 +1,27 @@
+#categories {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#categories td, #categories th {
+  border: 1px solid #ddd;
+  padding: 2px;
+}
+
+#categories tr:nth-child(even){background-color: #f2f2f2;}
+
+#categories tr:hover {background-color: #ddd;}
+
+#categories th {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+input {
+	height: 30px !important;
+}

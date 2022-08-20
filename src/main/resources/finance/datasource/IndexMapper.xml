@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="finance.datasource.IndexMapper">
+
+   <select id="listCategories" resultType="finance.model.Category">
+   		SELECT 
+   			* 
+   		FROM 
+   			CATEGORY;
+   </select>
+   
+   <select id="listCategoryDetailBy" resultType="finance.model.CategoryDetail">
+   		SELECT 
+   			id,
+   			name,
+   			amount_used as amountUsed,
+   			category_id
+   		FROM 
+   			CATEGORY_DETAIL
+   		WHERE
+   			CATEGORY_ID = #{categoryId}
+   			AND
+   			MONTH = #{month}
+   			AND
+   			YEAR = #{year};
+   </select>
+   
+   <select id="getAmountUsedBy" resultType="BigDecimal">
+   		SELECT 
+   			amount_used as amountUsed
+   		FROM 
+   			CATEGORY_DETAIL
+   		WHERE
+   			ID = #{categoryId};
+   </select>
+   
+   <update id="updateAmountUsedBy">
+   		UPDATE
+   			CATEGORY_DETAIL
+   		SET
+   			amount_used = ${newAmountUsed}
+   		WHERE
+   			ID = #{categoryId};
+   </update>
+   
+   <insert id="addNewCategoryBy" useGeneratedKeys="true" keyProperty="newCategoryDetail.id" keyColumn="id">
+   		INSERT INTO 
+   		CATEGORY_DETAIL(
+   			name, 
+   			amount_used, 
+   			category_id, 
+   			year, 
+   			month
+   			)
+   		VALUES(
+   			#{newCategoryDetail.name},
+   			0,
+   			#{newCategoryDetail.categoryId},
+   			#{newCategoryDetail.year},
+   			#{newCategoryDetail.month}
+   		)
+   </insert>
+   
+</mapper> 
