@@ -8,7 +8,7 @@
 </head>
 <body>
 <body>
-	<div class="container-fluit">
+	<div class="container">
 		<h5 style="color: red; text-align: center;">Personal Finance</h5>
 		<div style="text-align: center; padding-bottom: 20px;">
 			<form th:action="@{/index}" style="display: flex;">
@@ -29,16 +29,16 @@
 		<div class="row" id="content">
 			<div class="col-md-8">
 				<div class="row">
-					<div class="col-md-4" th:each="category : ${listCategories}">
-						<table id="categories" th:if="${category.id != 3}">
+					<div class="col-md-6" th:each="category : ${listCategories}">
+						<table id="categories">
 							<thead>
 								<tr>
 									<th colspan="3" style="font-size: 18px;" th:text="${category.name}">Ăn</th>
 								</tr>
 								<tr>
-									<th style="width: 25%;">Thể loại</th>
-									<th style="width: 30%;">Tổng tiền</th>
-									<th style="width: 45%;">Số tiền cộng thêm</th>
+									<th style="width: 25%;">Category</th>
+									<th style="width: 30%;">Total</th>
+									<th style="width: 45%;">Money Plus</th>
 								</tr>
 							</thead>
 							<tbody  th:id="'category' + ${category.id}">
@@ -46,8 +46,12 @@
 									<td th:text="${listCategoryDetail.name}"></td>
 									<td th:id="'amountUsed' + ${listCategoryDetail.id}" th:text="${listCategoryDetail.asText()}"></td>
 									<td style="display: flex;">
-										<input style="width: 70%;" type="number" class="form-control" th:id="'plusMoney' + ${listCategoryDetail.id}" placeholder="Số tiền cộng thêm">
-										<button onclick="addMoneyByCategoryDetailIdBy(this);" th:value="${listCategoryDetail.id}" class="btn btn-primary btn-sm">Add</button>
+										<input style="width: 70%;" type="number" class="form-control" th:id="'plusMoney' + ${listCategoryDetail.id}" placeholder="Plus +++">
+										<button th:onclick="'addMoneyByCategoryDetailIdBy(this,' + ${category.id} + ');'" th:value="${listCategoryDetail.id}" class="btn btn-primary btn-sm">Add</button>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" th:text="${category.asTextTotal}" th:data-value="${category.totalOfAmount}" style="color: red; font-size: 18px;" th:id="'total' + ${category.id}">
 									</td>
 								</tr>
 								<tr>
@@ -63,34 +67,18 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4" th:each="category : ${listCategories}">
-				<table id="categories" th:if="${category.id == 3}">
+			<div class="col-md-4">
+				<table id="summary">
 					<thead>
 						<tr>
-							<th colspan="3" style="font-size: 18px;" th:text="${category.name}">Ăn</th>
-						</tr>
-						<tr>
-							<th style="width: 25%;">Thể loại</th>
-							<th style="width: 30%;">Tổng tiền</th>
-							<th style="width: 45%;">Số tiền cộng thêm</th>
+							<th>Category</th>
+							<th>Total</th>
 						</tr>
 					</thead>
-					<tbody  th:id="'category' + ${category.id}">
-						<tr th:each="listCategoryDetail : ${category.listCategoryDetail}">
-							<td th:text="${listCategoryDetail.name}"></td>
-							<td th:id="'amountUsed' + ${listCategoryDetail.id}" th:text="${listCategoryDetail.asText()}"></td>
-							<td style="display: flex;">
-								<input style="width: 70%;" type="number" class="form-control" th:id="'plusMoney' + ${listCategoryDetail.id}" placeholder="Số tiền cộng thêm">
-								<button onclick="addMoneyByCategoryDetailIdBy(this);" th:value="${listCategoryDetail.id}" class="btn btn-primary btn-sm">Add</button>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<input type="text" class="form-control" th:id="'addNewCategory' + ${category.id}" placeholder="Category name">
-							</td>
-							<td>
-								<button onclick="addNewCategory(this);" th:value="${category.id}" class="btn btn-primary btn-sm">Add new category</button>
-							</td>
+					<tbody>
+						<tr th:each="category : ${listCategories}">
+							<td th:text="${category.name}">
+							<td th:text="${category.asTextTotalTable}">
 						</tr>
 					</tbody>
 				</table>
@@ -102,9 +90,9 @@
 	<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	
 	<script type="text/javascript">
-		function addMoneyByCategoryDetailIdBy(categoryDetailId) {
+		function addMoneyByCategoryDetailIdBy(categoryDetailId, categoryId) {
 		    var amount = $("#plusMoney" + categoryDetailId.value);
-		    $.ajax({
+		   	$.ajax({
 		        type: 'POST',
 		        url: '/updatePriceByCategoryDetailId',
 		        data: { 
@@ -113,8 +101,11 @@
 		        },
 		        cache: false,
 		        success: function(result) {
+		        	$("#amountUsed" + categoryDetailId.value).text(formatMoney(result));
+		        	let total = $("#total" + categoryId).data('value');
+		        	$("#total" + categoryId).data('value', (+amount.val() + total));
+		        	$("#total" + categoryId).text(formatTotalMoney(+amount.val() + total));
 		        	$("#plusMoney" + categoryDetailId.value).val('');
-		        	$("#amountUsed" + categoryDetailId.value).text(result);
 		        }
 		    });
 		}
@@ -123,7 +114,11 @@
 		    var newCategoryName = $("#addNewCategory" + categoryId.value);
 		    var year = $("#year");
 		    var month = $("#month");
-		    
+		    if(newCategoryName.val() === undefined || newCategoryName.val() === "") {
+		    	alert("Category Name Cannot Be Null!");
+		    	return;
+		    }
+		    	
 		    $.ajax({
 		        type: 'POST',
 		        url: '/addNewCategoryBy',
@@ -144,13 +139,21 @@
 							<td id="amountUsed${result.id}">0</td>
 							<td style="display: flex;">
 								<input style="width: 70%;" type="number" class="form-control" id="plusMoney${result.id}" placeholder="Số tiền cộng thêm">
-								<button onclick="addMoneyByCategoryDetailIdBy(this);" value="${result.id}" class="btn btn-primary btn-sm">Add</button>
+								<button th:onclick="'addMoneyByCategoryDetailIdBy(this,' + categoryId.value + ');'" value="${result.id}" class="btn btn-primary btn-sm">Add</button>
 							</td>
 						</tr>
 		        	`
 		        	trCategoryListById.append(tr)
 		        }
 		    });
+		}
+		
+		function formatMoney(money) {
+			return String(money).replace(/(.)(?=(\d{3})+$)/g,'$1,') + " VNĐ";
+		}
+		
+		function formatTotalMoney(money) {
+			return "Total: " + String(money).replace(/(.)(?=(\d{3})+$)/g,'$1,') + " VNĐ";
 		}
 	</script>
 	

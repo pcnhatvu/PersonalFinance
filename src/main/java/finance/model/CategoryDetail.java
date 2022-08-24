@@ -2,11 +2,8 @@ package finance.model;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.Currency;
 
 public class CategoryDetail {
-	
-	private static final Currency VND = Currency.getInstance("VND");
 	
 	private int id;
 	
@@ -66,12 +63,6 @@ public class CategoryDetail {
 
 	public void setMonth(int month) {
 		this.month = month;
-	}
-
-	@Override
-	public String toString() {
-		return "CategoryDetail [id=" + id + ", name=" + name + ", amountUsed=" + amountUsed + ", categoryId="
-				+ categoryId + ", year=" + year + ", month=" + month + "]";
 	}
 	
 	DecimalFormat formatter = new DecimalFormat("###,###,###");

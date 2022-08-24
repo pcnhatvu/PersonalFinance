@@ -1,7 +1,10 @@
 package finance.model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Category {
 
@@ -10,6 +13,8 @@ public class Category {
 	private String name;
 	
 	private List<CategoryDetail> listCategoryDetail = new ArrayList<CategoryDetail>();
+	
+	private int total;
 
 	public int getId() {
 		return id;
@@ -35,11 +40,25 @@ public class Category {
 		this.listCategoryDetail = listCategoryDetail;
 	}
 
-	@Override
-	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", listCategoryDetail=" + listCategoryDetail + ", getId()="
-				+ getId() + ", getName()=" + getName() + ", getListCategoryDetail()=" + getListCategoryDetail()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+	
+	public int totalOfAmount() {
+		return listCategoryDetail.stream().mapToInt(categoryDetail -> categoryDetail.getAmountUsed().intValue()).sum();
+	}
+	
+	DecimalFormat formatter = new DecimalFormat("###,###,###");
+	
+	public String asTextTotal() {
+		return "Total: " + formatter.format(totalOfAmount()) + " VNĐ";
+	}
+	
+	public String asTextTotalTable() {
+		return formatter.format(totalOfAmount()) + " VNĐ";
 	}
 }

@@ -23,7 +23,7 @@
    			AND
    			MONTH = #{month}
    			AND
-   			YEAR = #{year};
+   			YEAR = #{year}
    </select>
    
    <select id="getAmountUsedBy" resultType="BigDecimal">
