@@ -18,8 +18,8 @@
   padding-top: 2px;
   padding-bottom: 2px;
   text-align: left;
-  background-color: #04AA6D;
   color: white;
+  background-color: #04AA6D;
 }
 
 input {
@@ -49,3 +49,4 @@ input {
   background-color: yellow;
   color: black;
 }
+

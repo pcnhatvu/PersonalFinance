@@ -30,7 +30,7 @@
 			<div class="col-md-8">
 				<div class="row">
 					<div class="col-md-6" th:each="category : ${listCategories}">
-						<table id="categories">
+						<table id="categories" th:class = "aa">
 							<thead>
 								<tr>
 									<th colspan="3" style="font-size: 18px;" th:text="${category.name}">Ăn</th>
@@ -51,7 +51,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td colspan="3" th:text="${category.asTextTotal}" th:data-value="${category.totalOfAmount}" style="color: red; font-size: 18px;" th:id="'total' + ${category.id}">
+									<td colspan="3" th:text="${category.asTextTotal}" th:data-value="${category.totalOfAmount}" style="color: red; font-size: 18px;" th:id="'totalOfCategory' + ${category.id}">
 									</td>
 								</tr>
 								<tr>
@@ -78,7 +78,7 @@
 					<tbody>
 						<tr th:each="category : ${listCategories}">
 							<td th:text="${category.name}">
-							<td th:text="${category.asTextTotalTable}">
+							<td th:data-tabletotalmoney="${category.totalOfAmount}" th:id="'tableTotalMoney' + ${category.id}" th:text="${category.asTextTotalTable}">
 						</tr>
 					</tbody>
 				</table>
@@ -102,9 +102,15 @@
 		        cache: false,
 		        success: function(result) {
 		        	$("#amountUsed" + categoryDetailId.value).text(formatMoney(result));
-		        	let total = $("#total" + categoryId).data('value');
-		        	$("#total" + categoryId).data('value', (+amount.val() + total));
-		        	$("#total" + categoryId).text(formatTotalMoney(+amount.val() + total));
+		        	let totalOfCategory = $("#totalOfCategory" + categoryId).data('value');
+		        	let tableTotalMoney = $("#tableTotalMoney" + categoryId).data('tabletotalmoney');
+		        	
+		        	$("#totalOfCategory" + categoryId).data('value', (+amount.val() + totalOfCategory));
+		        	$("#totalOfCategory" + categoryId).text(formatTotalMoney(+amount.val() + totalOfCategory));
+		        	
+		        	$("#tableTotalMoney" + categoryId).data('tabletotalmoney', (+amount.val() + tableTotalMoney));
+		        	$("#tableTotalMoney" + categoryId).text(formatMoney(+amount.val() + tableTotalMoney));
+		        	
 		        	$("#plusMoney" + categoryDetailId.value).val('');
 		        }
 		    });
@@ -139,7 +145,7 @@
 							<td id="amountUsed${result.id}">0</td>
 							<td style="display: flex;">
 								<input style="width: 70%;" type="number" class="form-control" id="plusMoney${result.id}" placeholder="Số tiền cộng thêm">
-								<button th:onclick="'addMoneyByCategoryDetailIdBy(this,' + categoryId.value + ');'" value="${result.id}" class="btn btn-primary btn-sm">Add</button>
+								<button onclick="addMoneyByCategoryDetailIdBy(this,${categoryId.value});" value="${result.id}" class="btn btn-primary btn-sm">Add</button>
 							</td>
 						</tr>
 		        	`
