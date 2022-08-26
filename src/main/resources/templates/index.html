@@ -82,10 +82,16 @@
 						</tr>
 					</tbody>
 				</table>
+				<div id="chart">
+				
+				</div>
 			</div>
 		</div>
 
 	</div>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 	<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	
@@ -160,6 +166,69 @@
 		
 		function formatTotalMoney(money) {
 			return "Total: " + String(money).replace(/(.)(?=(\d{3})+$)/g,'$1,') + " VNĐ";
+		}
+		
+		Highcharts.chart('chart', {
+		    colors: ['#01BAF2', '#f6fa4b', '#FAA74B', '#baf201', '#f201ba'],
+		    chart: {
+		        type: 'pie'
+		    },
+		    plotOptions: {
+		        pie: {
+		            allowPointSelect: true,
+		            cursor: 'pointer',
+		            dataLabels: {
+		                enabled: true,
+		                format: '{point.name}: {point.percentage:.1f}%'
+		            },
+		            showInLegend: true
+		        }
+		    },
+		    series: [
+		        {
+		            data: redrawChart('aa',3333)
+		        }
+		    ]
+		});
+		
+		function redrawChart(newCategoryName, newAmount) {
+			let amountOfEatingSpending = $("#totalOfCategory1").data('value');
+			let amountOfCompulsiveSpending = $("#totalOfCategory2").data('value');
+			let amountOfMoveSpending = $("#totalOfCategory4").data('value');
+			let amountOfInvestSpending = $("#totalOfCategory5").data('value');
+			let amountOfOtherSpending = $("#totalOfCategory6").data('value');
+			let total = amountOfEatingSpending + amountOfCompulsiveSpending + amountOfMoveSpending + amountOfInvestSpending + amountOfOtherSpending;
+			
+			let percentageOfEatingSpending = +(amountOfEatingSpending / total * 100).toFixed(2);
+			let percentageOfCompulsiveSpending = +(amountOfCompulsiveSpending / total * 100).toFixed(2);
+			let percentageOfMoveSpending = +(amountOfMoveSpending / total * 100).toFixed(2);
+			let percentageOfInvestSpending = +(amountOfInvestSpending / total * 100).toFixed(2);
+			let percentageOfOtherSpending = +(amountOfOtherSpending / total * 100).toFixed(2);
+			
+			let a = [
+                {
+                    name: 'Eat',
+                    y: percentageOfEatingSpending
+                },
+                {
+                    name: 'Compulsive Spending',
+                    y: percentageOfCompulsiveSpending
+                },
+                {
+                    name: 'Move',
+                    y: percentageOfMoveSpending
+                },
+                {
+                    name: 'Invest',
+                    y: percentageOfInvestSpending
+                },
+                {
+                    name: 'Other Spending',
+                    y: percentageOfOtherSpending
+                }
+            ]
+			
+			return a;
 		}
 	</script>
 	
