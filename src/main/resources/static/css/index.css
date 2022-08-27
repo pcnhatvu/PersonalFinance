@@ -5,6 +5,10 @@
   margin-bottom: 10px;
 }
 
+#categories {
+	margin-bottom: 20px;
+}
+
 #categories td, #categories th {
   border: 1px solid #ddd;
   padding: 2px;

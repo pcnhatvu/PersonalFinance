@@ -1,0 +1,19 @@
+package finance.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import finance.utils.DateTimeService;
+
+@Controller
+public class FullYearController {
+
+	@RequestMapping("/full-year")
+	public String allYearInfomation(@RequestParam("year") int year, Model model) {
+		
+		model.addAttribute("listMonthOfYear", DateTimeService.listMonthOfYear());
+		return "full-year";
+	}
+}
