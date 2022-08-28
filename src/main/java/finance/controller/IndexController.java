@@ -25,6 +25,9 @@ public class IndexController {
 
 	@RequestMapping("/index")
 	public String index(@RequestParam("year") int year, @RequestParam("month") int month, Model model) {
+		if(month == 0) {
+			return "redirect:/full-year?year=" + year;
+		}
 		List<Category> listCategories = indexService.listCategories();
 		model.addAttribute("listCategories", listCategories);
 		

@@ -9,9 +9,9 @@
 <body>
 <body>
 	<div class="container">
-		<h5 style="color: red; text-align: center;">Personal Finance</h5>
-		<div style="text-align: center; padding-bottom: 20px;">
-			<form th:action="@{/index}" style="display: flex;">
+		<h4 style="color: red; text-align: center;">Personal Finance</h4>
+		<div>
+			<form th:action="@{/index}" style="display: flex;" id="form">
 				<select class="form-control" id="year" th:name="year">
 				    <option th:value="2022" th:utext="2022"></option>
 				    <option th:value="2023" th:utext="2023"></option>
@@ -22,13 +22,58 @@
 				    	th:utext="${month.value}"
 				    	th:selected="${month.key == currentMonth}">January</option>
 				</select>
-				<button class="btn btn-default" type="submit">Submit</button>
 			</form>
 		</div>
+		
+		<h3 style="color: blue; text-align: center;">Bảng theo dõi chi tiêu năm <span th:text="${year}"></span></h3>
+		<div style="color: #ff0081; text-align: center;">
+			<span style="border: 1px solid; padding: 5px;">Số tiền có trong tài khoản ngày 11/04/20220</span>
+			<span style="color: #ff6f00; border: 1px solid; padding: 5px;">10,700,000 VNĐ</span>
+		</div>
 	</div>
+	
+	<div class="container-fluid">
+			<table id="summary">
+				<thead>
+					<tr>
+						<th></th>
+						<th class="month-row" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Beginning</td>
+						<td class="amountOfBeginning" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
+					</tr>
+					<tr>
+						<td>Main Income</td>
+						<td class="income" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
+					</tr>
+					<tr>
+						<td>Side Income</td>
+						<td class="income" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
+					</tr>
+					
+					<tr>
+						<td colspan="13" style="text-align: center; font-style: italic;">Detail</td>
+					</tr>
+					
+					<tr th:each="category : ${listCategories}">
+						<td th:text="${category.name}"></td>
+					</tr>
+					
+					<tr>
+						<td colspan="13" style="text-align: center; font-style: italic;">Total</td>
+					</tr>
+				</tbody>
+			</table>
+		
+		</div>
 </body>
-<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
-<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-</script>
+	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="../js/date-time.js"></script>
+	
+	<script type="text/javascript">
+	</script>
 </html>

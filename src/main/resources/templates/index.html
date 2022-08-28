@@ -9,9 +9,9 @@
 <body>
 <body>
 	<div class="container">
-		<h5 style="color: red; text-align: center;">Personal Finance</h5>
+		<h4 style="color: red; text-align: center;">Personal Finance</h4>
 		<div style="text-align: center; padding-bottom: 20px;">
-			<form th:action="@{/index}" style="display: flex;">
+			<form th:action="@{/index}" style="display: flex;" id="form">
 				<select class="form-control" id="year" th:name="year">
 				    <option th:value="2022" th:utext="2022"></option>
 				    <option th:value="2023" th:utext="2023"></option>
@@ -22,7 +22,6 @@
 				    	th:utext="${month.value}"
 				    	th:selected="${month.key == currentMonth}">January</option>
 				</select>
-				<button class="btn btn-default" type="submit">Submit</button>
 			</form>
 		</div>
 		
@@ -90,11 +89,12 @@
 
 	</div>
 </body>
-<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 	<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="../js/date-time.js"></script>
 	
 	<script type="text/javascript">
 	
@@ -242,5 +242,6 @@
 			
 			return chartData;
 		}
+		
 	</script>
 </html>

@@ -1,0 +1,29 @@
+table, th, td {
+  border: 1px solid black;
+}
+
+#summary td, #categories th {
+  padding: 2px;
+}
+
+#summary th {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-align: center;
+}
+
+#summary .month-row {
+  color: white;
+  background-color: #3eaa04;
+  width: 118px;
+}
+
+#summary .amountOfBeginning {
+  background-color: #0495aa;
+  width: 118px;
+}
+
+#summary .income {
+  background-color: #e2e29e;
+  width: 118px;
+}
