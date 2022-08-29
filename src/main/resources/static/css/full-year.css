@@ -2,6 +2,10 @@ table, th, td {
   border: 1px solid black;
 }
 
+#summary {
+	margin-top: 15px;
+}
+
 #summary td, #categories th {
   padding: 2px;
 }

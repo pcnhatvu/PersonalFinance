@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="finance.datasource.FullYearMapper">
+   
+   <select id="listCategoryDetailBy" resultType="finance.model.CategoryDetail">
+   		SELECT 
+   			id,
+   			name,
+   			amount_used as amountUsed,
+   			category_id
+   		FROM 
+   			CATEGORY_DETAIL
+   		WHERE
+   			CATEGORY_ID = #{categoryId}
+   			AND
+   			YEAR = #{year}
+   </select>
+   
+</mapper> 

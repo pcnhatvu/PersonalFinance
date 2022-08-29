@@ -71,4 +71,8 @@ public class CategoryDetail {
 		return formatter.format(this.amountUsed) + " VNĐ";
 	}
 	
+	public long getLongValueOfAmountUsed() {
+		return amountUsed.longValue();
+	}
+	
 }

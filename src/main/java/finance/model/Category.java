@@ -1,8 +1,10 @@
 package finance.model;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Category {
 
@@ -58,5 +60,17 @@ public class Category {
 	
 	public String asTextTotalTable() {
 		return formatter.format(totalOfAmount()) + " VNĐ";
+	}
+	
+	public List<CategoryDetail> listCategoryDetailByMonth(int month) {
+		return listCategoryDetail.stream()
+								.filter(categoryDetail -> categoryDetail.getMonth() == month)
+								.collect(Collectors.toList());
+	}
+	
+	public Double totalOfAmountUsedBy(List<CategoryDetail> listCategoryDetail) {
+		return listCategoryDetail.stream()
+				.mapToDouble(categoryDetail -> categoryDetail.getLongValueOfAmountUsed())
+				.sum();
 	}
 }
