@@ -14,8 +14,8 @@ public class FullYearService {
 	@Autowired
 	private FullYearMapper fullYearMapper;
 	
-	public List<CategoryDetail> listCategoryDetailBy(int categoryId, int year) {
-		return fullYearMapper.listCategoryDetailBy(categoryId, year);
+	public List<CategoryDetail> listCategoryDetailBy(int year) {
+		return fullYearMapper.listCategoryDetailBy(year);
 	}
 	
 }

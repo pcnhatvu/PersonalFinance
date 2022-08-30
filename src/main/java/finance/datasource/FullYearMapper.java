@@ -10,6 +10,6 @@ import finance.model.CategoryDetail;
 @Mapper
 public interface FullYearMapper {
 	
-	public List<CategoryDetail> listCategoryDetailBy(@Param("categoryId") int categoryId, @Param("year") int year);
+	public List<CategoryDetail> listCategoryDetailBy(@Param("year") int year);
 	
 }

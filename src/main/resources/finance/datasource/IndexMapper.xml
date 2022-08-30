@@ -15,7 +15,7 @@
    			id,
    			name,
    			amount_used as amountUsed,
-   			category_id
+   			category_id as categoryId
    		FROM 
    			CATEGORY_DETAIL
    		WHERE

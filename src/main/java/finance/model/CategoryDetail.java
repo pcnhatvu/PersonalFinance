@@ -74,5 +74,11 @@ public class CategoryDetail {
 	public long getLongValueOfAmountUsed() {
 		return amountUsed.longValue();
 	}
+
+	@Override
+	public String toString() {
+		return "CategoryDetail [id=" + id + ", name=" + name + ", amountUsed=" + amountUsed + ", categoryId="
+				+ categoryId + ", year=" + year + ", month=" + month + ", formatter=" + formatter + "]";
+	}
 	
 }
