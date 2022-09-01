@@ -58,8 +58,9 @@
 						<td colspan="13" style="text-align: center; font-style: italic;">Detail</td>
 					</tr>
 					
-					<tr th:each="category : ${listCategories}">
+					<tr th:each="category : ${categories}">
 						<td th:text="${category.name}"></td>
+						<td th:each="fullYear, rowStat : ${fullYears.?[month == 4]}" th:text="${fullYear.listAmountByMonth}"></td>
 					</tr>
 					
 					<tr>

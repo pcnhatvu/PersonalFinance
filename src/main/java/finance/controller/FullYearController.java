@@ -31,38 +31,46 @@ public class FullYearController {
 
 	@RequestMapping("/full-year")
 	public String allYearInfomation(@RequestParam("year") int year, Model model) {
-
+		List<Category> categories = indexService.listCategories();
 		List<CategoryDetail> listCategoryDetail = fullYearService.listCategoryDetailBy(year);
 		
-		List<FullYear> listFullYear = of(year, listCategoryDetail);
+		List<FullYear> fullYears = of(year, listCategoryDetail, categories);
 		
-		model.addAttribute("listCategories", listCategoryDetail);
+		model.addAttribute("categories", categories);
+		model.addAttribute("fullYears", fullYears);
 		model.addAttribute("year", year);
 		model.addAttribute("listMonthOfYear", DateTimeService.listMonthOfYear());
 		return "full-year";
 	}
 	
-	private List<FullYear> of(int year, List<CategoryDetail> listCategoryDetail) {
+	private List<FullYear> of(int year, List<CategoryDetail> listCategoryDetail, List<Category> categories) {
 		List<FullYear> listFullYears = new ArrayList<FullYear>();
-		List<Map<Integer, BigDecimal>> listAmountByMonthList = new ArrayList<Map<Integer,BigDecimal>>();
 		
-		//for(int i = 1 ; i <= 12 ; i++) {
-			Map<Integer, Long> amountByMonth = new HashMap<Integer, Long>();
-			Long amount = getAmountOfMoneyBy(4, 1, listCategoryDetail);
-			amountByMonth.put(Integer.valueOf(4), amount);
-
-			//listAmountByMonthList.add(amountByMonth);
-		//}
-			
-		FullYear fullYear = new FullYear(year, 1, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, listAmountByMonthList);
-		System.out.println(fullYear);
-		return null;
+		
+		for(int i = 1 ; i <= 12 ; i++) {
+			List<Map<Integer, BigDecimal>> listAmountByMonthList = getAmountOfMoneyBy(i, listCategoryDetail, categories);
+			FullYear fullYear = new FullYear(year, i, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, listAmountByMonthList);
+			listFullYears.add(fullYear);
+		}
+		
+		System.out.println(listFullYears);
+		
+		return listFullYears;
 	}
 	
-	private Long getAmountOfMoneyBy(int month, int categoryId, List<CategoryDetail> listCategoryDetails) {
-		return listCategoryDetails.stream()
-						.filter(categoryDetail -> categoryDetail.getCategoryId() == categoryId && categoryDetail.getMonth() == month)
-						.mapToLong(listCategoryDetail -> listCategoryDetail.getLongValueOfAmountUsed())
-						.sum();
+	private List<Map<Integer, BigDecimal>> getAmountOfMoneyBy(int month, List<CategoryDetail> listCategoryDetails, List<Category> categories) {
+		List<Map<Integer, BigDecimal>> listAmountByMonthList = new ArrayList<Map<Integer,BigDecimal>>();
+		
+		categories.stream().forEach(category -> {
+			Map<Integer, BigDecimal> amountByMonth = new HashMap<Integer, BigDecimal>();
+			BigDecimal amount = new BigDecimal(listCategoryDetails.stream()
+					.filter(categoryDetail -> categoryDetail.getMonth() == month &&  categoryDetail.getCategoryId() == category.getId())
+					.mapToLong(listCategoryDetail -> listCategoryDetail.getLongValueOfAmountUsed())
+					.sum());
+			amountByMonth.put(category.getId(), amount);
+			listAmountByMonthList.add(amountByMonth);
+		});
+		
+		return listAmountByMonthList;
 	}
 }
