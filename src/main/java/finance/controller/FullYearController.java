@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import finance.model.Category;
 import finance.model.CategoryDetail;
 import finance.model.FullYear;
+import finance.model.core.Amount;
 import finance.service.FullYearService;
 import finance.service.IndexService;
 import finance.utils.DateTimeService;
@@ -48,7 +48,7 @@ public class FullYearController {
 		
 		
 		for(int i = 1 ; i <= 12 ; i++) {
-			List<Map<Integer, BigDecimal>> listAmountByMonthList = getAmountOfMoneyBy(i, listCategoryDetail, categories);
+			List<Map<Integer, Amount>> listAmountByMonthList = getAmountOfMoneyBy(i, listCategoryDetail, categories);
 			FullYear fullYear = new FullYear(year, i, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, listAmountByMonthList);
 			listFullYears.add(fullYear);
 		}
@@ -58,16 +58,16 @@ public class FullYearController {
 		return listFullYears;
 	}
 	
-	private List<Map<Integer, BigDecimal>> getAmountOfMoneyBy(int month, List<CategoryDetail> listCategoryDetails, List<Category> categories) {
-		List<Map<Integer, BigDecimal>> listAmountByMonthList = new ArrayList<Map<Integer,BigDecimal>>();
+	private List<Map<Integer, Amount>> getAmountOfMoneyBy(int month, List<CategoryDetail> listCategoryDetails, List<Category> categories) {
+		List<Map<Integer, Amount>> listAmountByMonthList = new ArrayList<Map<Integer,Amount>>();
 		
 		categories.stream().forEach(category -> {
-			Map<Integer, BigDecimal> amountByMonth = new HashMap<Integer, BigDecimal>();
+			Map<Integer, Amount> amountByMonth = new HashMap<Integer, Amount>();
 			BigDecimal amount = new BigDecimal(listCategoryDetails.stream()
 					.filter(categoryDetail -> categoryDetail.getMonth() == month &&  categoryDetail.getCategoryId() == category.getId())
-					.mapToLong(listCategoryDetail -> listCategoryDetail.getLongValueOfAmountUsed())
+					.mapToLong(listCategoryDetail -> listCategoryDetail.getAmountUsed().getLongValueOfAmount())
 					.sum());
-			amountByMonth.put(category.getId(), amount);
+			amountByMonth.put(category.getId(), new Amount(amount));
 			listAmountByMonthList.add(amountByMonth);
 		});
 		

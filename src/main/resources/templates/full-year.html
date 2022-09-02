@@ -60,7 +60,13 @@
 					
 					<tr th:each="category : ${categories}">
 						<td th:text="${category.name}"></td>
-						<td th:each="fullYear, rowStat : ${fullYears.?[month == 4]}" th:text="${fullYear.listAmountByMonth}"></td>
+						<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="amount">
+							<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
+								<span th:each="amountMap : ${fullYear.listAmountByMonth}">
+									<span th:each="amount : ${amountMap}" th:if="${amount.key == category.id}" th:text="${amount.value.asText}"></span>
+								</span>
+							</span>
+						</td>
 					</tr>
 					
 					<tr>

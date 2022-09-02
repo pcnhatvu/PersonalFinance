@@ -1,7 +1,8 @@
 package finance.model;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
+
+import finance.model.core.Amount;
 
 public class CategoryDetail {
 	
@@ -9,7 +10,7 @@ public class CategoryDetail {
 	
 	private String name;
 	
-	private BigDecimal amountUsed;
+	private Amount amountUsed;
 	
 	private int categoryId;
 	
@@ -33,12 +34,12 @@ public class CategoryDetail {
 		this.name = name;
 	}
 
-	public BigDecimal getAmountUsed() {
+	public Amount getAmountUsed() {
 		return amountUsed;
 	}
 
 	public void setAmountUsed(BigDecimal amountUsed) {
-		this.amountUsed = amountUsed;
+		this.amountUsed = new Amount(amountUsed);
 	}
 
 	public int getCategoryId() {
@@ -64,21 +65,11 @@ public class CategoryDetail {
 	public void setMonth(int month) {
 		this.month = month;
 	}
-	
-	DecimalFormat formatter = new DecimalFormat("###,###,###");
-	
-	public String asText() {
-		return formatter.format(this.amountUsed) + " VNĐ";
-	}
-	
-	public long getLongValueOfAmountUsed() {
-		return amountUsed.longValue();
-	}
 
 	@Override
 	public String toString() {
 		return "CategoryDetail [id=" + id + ", name=" + name + ", amountUsed=" + amountUsed + ", categoryId="
-				+ categoryId + ", year=" + year + ", month=" + month + ", formatter=" + formatter + "]";
+				+ categoryId + ", year=" + year + ", month=" + month + "]";
 	}
 	
 }

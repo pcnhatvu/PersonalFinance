@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import finance.model.core.Amount;
+
 public class FullYear {
 	
 	private int year;
@@ -16,14 +18,14 @@ public class FullYear {
 	
 	private BigDecimal sideIncome;
 	
-	private List<Map<Integer, BigDecimal>> listAmountByMonth;
+	private List<Map<Integer, Amount>> listAmountByMonth;
 
 	public FullYear() {
 		super();
 	}
 
 	public FullYear(int year, int month, BigDecimal amountOfBeginning, BigDecimal mainIncome, BigDecimal sideIncome,
-			List<Map<Integer, BigDecimal>> listAmountByMonth) {
+			List<Map<Integer, Amount>> listAmountByMonth) {
 		super();
 		this.year = year;
 		this.month = month;
@@ -73,7 +75,7 @@ public class FullYear {
 		this.sideIncome = sideIncome;
 	}
 
-	public List<Map<Integer, BigDecimal>> getListAmountByMonth() {
+	public List<Map<Integer, Amount>> getListAmountByMonth() {
 		return listAmountByMonth;
 	}
 

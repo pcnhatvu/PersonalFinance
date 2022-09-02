@@ -43,7 +43,7 @@
 							<tbody  th:id="'category' + ${category.id}">
 								<tr th:each="listCategoryDetail : ${category.listCategoryDetail}">
 									<td th:text="${listCategoryDetail.name}"></td>
-									<td th:id="'amountUsed' + ${listCategoryDetail.id}" th:text="${listCategoryDetail.asText()}"></td>
+									<td th:id="'amountUsed' + ${listCategoryDetail.id}" th:text="${listCategoryDetail.amountUsed.asText()}"></td>
 									<td style="display: flex;">
 										<input style="width: 70%;" type="number" class="form-control" th:id="'plusMoney' + ${listCategoryDetail.id}" placeholder="Plus +++">
 										<button th:onclick="'addMoneyByCategoryDetailIdBy(this,' + ${category.id} + ');'" th:value="${listCategoryDetail.id}" class="btn btn-primary btn-sm">Add</button>

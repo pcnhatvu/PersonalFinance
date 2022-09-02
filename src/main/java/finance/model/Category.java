@@ -1,6 +1,5 @@
 package finance.model;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class Category {
 	}
 	
 	public int totalOfAmount() {
-		return listCategoryDetail.stream().mapToInt(categoryDetail -> categoryDetail.getAmountUsed().intValue()).sum();
+		return listCategoryDetail.stream().mapToInt(categoryDetail -> categoryDetail.getAmountUsed().getIntValueOfAmount()).sum();
 	}
 	
 	DecimalFormat formatter = new DecimalFormat("###,###,###");
@@ -70,7 +69,7 @@ public class Category {
 	
 	public Double totalOfAmountUsedBy(List<CategoryDetail> listCategoryDetail) {
 		return listCategoryDetail.stream()
-				.mapToDouble(categoryDetail -> categoryDetail.getLongValueOfAmountUsed())
+				.mapToDouble(categoryDetail -> categoryDetail.getAmountUsed().getLongValueOfAmount())
 				.sum();
 	}
 }

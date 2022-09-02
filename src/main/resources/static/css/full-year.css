@@ -16,18 +16,22 @@ table, th, td {
   text-align: center;
 }
 
-#summary .month-row {
+.month-row {
   color: white;
   background-color: #3eaa04;
   width: 118px;
 }
 
-#summary .amountOfBeginning {
+.amountOfBeginning {
   background-color: #0495aa;
   width: 118px;
 }
 
-#summary .income {
+.income {
   background-color: #e2e29e;
   width: 118px;
+}
+
+.amount {
+	background-color: #d6e9eb;
 }
