@@ -70,6 +70,17 @@
 					</tr>
 					
 					<tr>
+						<td>Total spending</td>
+						<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="amount">
+							<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
+								<span th:each="amount : ${fullYear.listTotalOfMonth}">
+									<span th:text="${amount.value.asText}"></span>
+								</span>
+							</span>
+						</td>
+					</tr>
+					
+					<tr>
 						<td colspan="13" style="text-align: center; font-style: italic;">Total</td>
 					</tr>
 				</tbody>

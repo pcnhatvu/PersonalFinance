@@ -50,10 +50,10 @@ public class FullYearController {
 		for(int i = 1 ; i <= 12 ; i++) {
 			List<Map<Integer, Amount>> listAmountByMonthList = getAmountOfMoneyBy(i, listCategoryDetail, categories);
 			FullYear fullYear = new FullYear(year, i, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, listAmountByMonthList);
+			Map<Integer, Amount> listTotalOfMonth = totalOfMonthBy(i, listCategoryDetail);
+			fullYear.setListTotalOfMonth(listTotalOfMonth);
 			listFullYears.add(fullYear);
 		}
-		
-		System.out.println(listFullYears);
 		
 		return listFullYears;
 	}
@@ -72,5 +72,18 @@ public class FullYearController {
 		});
 		
 		return listAmountByMonthList;
+	}
+	
+	private Map<Integer, Amount> totalOfMonthBy(int month, List<CategoryDetail> listCategoryDetail) {
+		Map<Integer, Amount> listTotalOfMonth = new HashMap<Integer, Amount>();
+		
+		BigDecimal amount = new BigDecimal(listCategoryDetail.stream()
+			.filter(categoryDetail -> categoryDetail.getMonth() == month)
+			.mapToLong(categoryDetail -> categoryDetail.getAmountUsed().getLongValueOfAmount())
+			.sum());
+		
+		listTotalOfMonth.put(Integer.valueOf(month), new Amount(amount));
+		
+		return listTotalOfMonth;
 	}
 }

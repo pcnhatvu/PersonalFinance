@@ -19,6 +19,8 @@ public class FullYear {
 	private BigDecimal sideIncome;
 	
 	private List<Map<Integer, Amount>> listAmountByMonth;
+	
+	private Map<Integer, Amount> listTotalOfMonth;
 
 	public FullYear() {
 		super();
@@ -77,6 +79,14 @@ public class FullYear {
 
 	public List<Map<Integer, Amount>> getListAmountByMonth() {
 		return listAmountByMonth;
+	}
+
+	public Map<Integer, Amount> getListTotalOfMonth() {
+		return listTotalOfMonth;
+	}
+
+	public void setListTotalOfMonth(Map<Integer, Amount> listTotalOfMonth) {
+		this.listTotalOfMonth = listTotalOfMonth;
 	}
 
 	@Override
