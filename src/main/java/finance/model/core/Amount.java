@@ -3,13 +3,15 @@ package finance.model.core;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-public class Amount {
+public class Amount{
 	private DecimalFormat formatter = new DecimalFormat("###,###,###");
 	
 	private BigDecimal value;
 	
+	public Amount() {
+	}
+
 	public Amount(BigDecimal value) {
-		super();
 		this.value = value;
 	}
 
@@ -31,5 +33,10 @@ public class Amount {
 	
 	public int getIntValueOfAmount() {
 		return value.intValue();
+	}
+
+	@Override
+	public String toString() {
+		return "Amount [value=" + value + "]";
 	}
 }

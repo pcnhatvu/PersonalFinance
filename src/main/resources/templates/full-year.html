@@ -33,65 +33,146 @@
 	</div>
 	
 	<div class="container-fluid">
-			<table id="summary">
-				<thead>
-					<tr>
-						<th></th>
-						<th class="month-row" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Beginning</td>
-						<td class="amountOfBeginning" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
-					</tr>
-					<tr>
-						<td>Main Income</td>
-						<td class="income" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
-					</tr>
-					<tr>
-						<td>Side Income</td>
-						<td class="income" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
-					</tr>
-					
-					<tr>
-						<td colspan="13" style="text-align: center; font-style: italic;">Detail</td>
-					</tr>
-					
-					<tr th:each="category : ${categories}">
-						<td th:text="${category.name}"></td>
-						<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="amount">
-							<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
-								<span th:each="amountMap : ${fullYear.listAmountByMonth}">
-									<span th:each="amount : ${amountMap}" th:if="${amount.key == category.id}" th:text="${amount.value.asText}"></span>
-								</span>
+		<table id="summary">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="month-row" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="hightlight">Beginning</td>
+					<td class="amountOfBeginning" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
+				</tr>
+				<tr>
+					<td>Main Income</td>
+					<td class="income" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
+				</tr>
+				<tr>
+					<td>Side Income</td>
+					<td class="income" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
+				</tr>
+				
+				<tr>
+					<td colspan="13" style="text-align: center; font-style: italic;">Detail</td>
+				</tr>
+				
+				<tr th:each="category : ${categories}">
+					<td th:text="${category.name}"></td>
+					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="amount">
+						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
+							<span th:each="amountMap : ${fullYear.listAmountByMonth}">
+								<span th:each="amount : ${amountMap}" th:if="${amount.key == category.id}" th:text="${amount.value.asText}"></span>
 							</span>
-						</td>
-					</tr>
-					
-					<tr>
-						<td>Total spending</td>
-						<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="amount">
-							<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
-								<span th:each="amount : ${fullYear.listTotalOfMonth}">
-									<span th:text="${amount.value.asText}"></span>
-								</span>
+						</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="hightlight">Total spending</td>
+					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="total-amount hightlight">
+						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
+							<span th:each="amount : ${fullYear.listTotalOfMonth}">
+								<span th:text="${amount.value.asText}"></span>
 							</span>
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="13" style="text-align: center; font-style: italic;">Total</td>
-					</tr>
-				</tbody>
-			</table>
-		
+						</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="13" style="text-align: center; font-style: italic;">Amount at the end of the month</td>
+				</tr>
+				
+				<tr>
+					<td class="hightlight">Amount at the end of the month</td>
+					<td class="amountOfBeginning" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 main-income">
+				<span>Main Income</span>
+			</div>
+			<div class="col-md-6 main-income">
+				<span>Side Income</span>
+			</div>
 		</div>
+		<div class="row" style="margin-bottom: 20px;">
+			<div class="col-md-6 main-income">
+				<input type="text" placeholder="Main Income Name" class="form-control" id="name-main-income" >
+				<input type="number" placeholder="Amount" class="form-control" id="amount-main-income" >
+				<select class="form-control" id="month-main-income" th:name="month">
+				    <option th:each="month : ${listMonthOfYear}"
+				    	th:if="${month.key != 0}"
+				    	th:value="${month.key}" 
+				    	th:utext="${month.value}"
+				    	th:selected="${month.key == currentMonth}"></option>
+				</select>
+				<button onclick="addMainIncome();" class="btn btn-primary btn-sm">Add</button>
+			</div>
+			
+			<div class="col-md-6 main-income">
+				<input type="text" placeholder="Side Income Name" class="form-control" id="amount-side-income" >
+				<input type="number" placeholder="Amount" class="form-control" id="amount-side-income" >
+				<select class="form-control" id="month-side-income" th:name="month">
+				    <option th:each="month : ${listMonthOfYear}" 
+				    	th:if="${month.key != 0}"
+				    	th:value="${month.key}" 
+				    	th:utext="${month.value}"
+				    	th:selected="${month.key == currentMonth}"></option>
+				</select>
+				<button onclick="addSideIncome();" class="btn btn-primary btn-sm">Add</button>
+			</div>
+		</div>
+	</div>
+	
 </body>
 	<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 	<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="../js/date-time.js"></script>
 	
 	<script type="text/javascript">
+	
+	function addMainIncome() {
+		var name = $('#name-main-income').val();
+		var amount = $('#amount-main-income').val();
+		var month = $('#month-main-income').val();
+		var type = 'MAIN';
+		addIncome(name, amount, month, type);
+	}
+	
+	function addSideIncome() {
+		var name = $('#name-side-income').val();
+		var amount = $('#amount-side-income').val();
+		var month = $('#month-side-income').val();
+		var type = 'SIDE';
+		addIncome(name, amount, month, type);
+	}
+	
+	function addIncome(name, amount, month, type) {
+		if(name == '' || amount == '')
+			return alert("Name or Amount both required!");
+		
+		$.ajax({
+	        type: 'POST',
+	        contentType: "application/json",
+	        url: '/addIncome',
+	        data: JSON.stringify({ 
+	        	month: month,
+	        	amount: {amount:amount},
+	        	type: type,
+	        	name: name
+	        }),
+	        cache: false,
+	        success: function(result) {
+				
+	        }
+	    });
+	}
+	
 	</script>
 </html>

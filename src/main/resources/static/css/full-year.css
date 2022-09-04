@@ -25,6 +25,7 @@ table, th, td {
 .amountOfBeginning {
   background-color: #0495aa;
   width: 118px;
+  font-weight: 600;
 }
 
 .income {
@@ -35,3 +36,18 @@ table, th, td {
 .amount {
 	background-color: #d6e9eb;
 }
+
+.total-amount {
+	background-color: #e2b9b9;
+}
+
+.main-income {
+	display: flex; 
+	line-height: 30px;
+	justify-content: center;
+}
+
+.hightlight {
+	font-weight: 600;
+}
+

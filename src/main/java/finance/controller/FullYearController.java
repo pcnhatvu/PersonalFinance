@@ -1,6 +1,7 @@
 package finance.controller;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +10,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import finance.model.Category;
 import finance.model.CategoryDetail;
 import finance.model.FullYear;
+import finance.model.Income;
 import finance.model.core.Amount;
 import finance.service.FullYearService;
 import finance.service.IndexService;
@@ -34,13 +39,25 @@ public class FullYearController {
 		List<Category> categories = indexService.listCategories();
 		List<CategoryDetail> listCategoryDetail = fullYearService.listCategoryDetailBy(year);
 		
+		LocalDate currentdate = LocalDate.now();
+		int currentMonth = currentdate.getMonth().ordinal() + 1;
+		
 		List<FullYear> fullYears = of(year, listCategoryDetail, categories);
 		
 		model.addAttribute("categories", categories);
 		model.addAttribute("fullYears", fullYears);
 		model.addAttribute("year", year);
+		model.addAttribute("currentMonth", currentMonth);
 		model.addAttribute("listMonthOfYear", DateTimeService.listMonthOfYear());
 		return "full-year";
+	}
+	
+	@RequestMapping(value = "addIncome", method = RequestMethod.POST)
+	@ResponseBody
+	public Income addIncome(@RequestBody Income income, Model model) {
+		//indexService.addNewCategoryBy(newCategoryDetail);
+		System.out.println(income);
+		return income;
 	}
 	
 	private List<FullYear> of(int year, List<CategoryDetail> listCategoryDetail, List<Category> categories) {
