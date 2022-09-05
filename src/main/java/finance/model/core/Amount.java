@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 public class Amount{
 	private DecimalFormat formatter = new DecimalFormat("###,###,###");
 	
-	private BigDecimal value;
+	private BigDecimal value = new BigDecimal(0);
 	
 	public Amount() {
 	}

@@ -16,7 +16,7 @@ public class FullYear {
 	
 	private BigDecimal mainIncome;
 	
-	private BigDecimal sideIncome;
+	private Amount sideIncome;
 	
 	private List<Map<Integer, Amount>> listAmountByMonth;
 	
@@ -26,7 +26,7 @@ public class FullYear {
 		super();
 	}
 
-	public FullYear(int year, int month, BigDecimal amountOfBeginning, BigDecimal mainIncome, BigDecimal sideIncome,
+	public FullYear(int year, int month, BigDecimal amountOfBeginning, BigDecimal mainIncome, Amount sideIncome,
 			List<Map<Integer, Amount>> listAmountByMonth) {
 		super();
 		this.year = year;
@@ -69,12 +69,12 @@ public class FullYear {
 		this.mainIncome = mainIncome;
 	}
 
-	public BigDecimal getSideIncome() {
+	public Amount getSideIncome() {
 		return sideIncome;
 	}
 
 	public void setSideIncome(BigDecimal sideIncome) {
-		this.sideIncome = sideIncome;
+		this.sideIncome = new Amount(sideIncome);
 	}
 
 	public List<Map<Integer, Amount>> getListAmountByMonth() {

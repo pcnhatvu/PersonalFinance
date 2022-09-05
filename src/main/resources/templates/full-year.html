@@ -51,7 +51,11 @@
 				</tr>
 				<tr>
 					<td>Side Income</td>
-					<td class="income" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></td>
+					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="income hightlight">
+						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
+							<span th:text="${fullYear.sideIncome.asText}"></span>
+						</span>
+					</td>
 				</tr>
 				
 				<tr>
@@ -116,7 +120,7 @@
 			</div>
 			
 			<div class="col-md-6 main-income">
-				<input type="text" placeholder="Side Income Name" class="form-control" id="amount-side-income" >
+				<input type="text" placeholder="Side Income Name" class="form-control" id="name-side-income" >
 				<input type="number" placeholder="Amount" class="form-control" id="amount-side-income" >
 				<select class="form-control" id="month-side-income" th:name="month">
 				    <option th:each="month : ${listMonthOfYear}" 
@@ -157,11 +161,14 @@
 		if(name == '' || amount == '')
 			return alert("Name or Amount both required!");
 		
+		var year = $('#year').val();
+		
 		$.ajax({
 	        type: 'POST',
 	        contentType: "application/json",
 	        url: '/addIncome',
-	        data: JSON.stringify({ 
+	        data: JSON.stringify({
+	        	year: year,
 	        	month: month,
 	        	amount: {amount:amount},
 	        	type: type,
@@ -169,7 +176,13 @@
 	        }),
 	        cache: false,
 	        success: function(result) {
-				
+				if(result.type == "MAIN") {
+					$('#name-main-income').val('');
+					$('#amount-main-income').val('');
+				} else {
+					$('#name-side-income').val('');
+					$('#amount-side-income').val('');
+				}
 	        }
 	    });
 	}

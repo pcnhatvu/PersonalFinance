@@ -1,5 +1,7 @@
 package finance.model;
 
+import java.math.BigDecimal;
+
 import finance.model.core.Amount;
 import finance.model.core.IncomeType;
 
@@ -52,8 +54,8 @@ public class Income {
 		return amount;
 	}
 
-	public void setAmount(Amount amount) {
-		this.amount = amount;
+	public void setAmount(BigDecimal amount) {
+		this.amount = new Amount(amount);
 	}
 
 	public String getName() {

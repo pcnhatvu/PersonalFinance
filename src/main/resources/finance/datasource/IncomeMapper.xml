@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="finance.datasource.IncomeMapper">
+   
+   <insert id="addIncome">
+   		INSERT INTO 
+   		INCOME(
+   			type,
+   			year,
+   			month,
+   			amount,
+   			name
+   		)
+   		VALUES(
+   			#{income.type},
+   			#{income.year},
+   			#{income.month},
+   			#{income.amount.value},
+   			#{income.name}
+   		)
+   </insert>
+   
+   <select id="listIncomeBy" resultType="finance.model.Income">
+   		SELECT
+   			type,
+   			year,
+   			month,
+   			amount,
+   			name
+   		FROM
+   			INCOME
+   		WHERE
+   			year = ${year}
+   </select>
+   
+</mapper> 

@@ -22,6 +22,7 @@ import finance.model.FullYear;
 import finance.model.Income;
 import finance.model.core.Amount;
 import finance.service.FullYearService;
+import finance.service.IncomeService;
 import finance.service.IndexService;
 import finance.utils.DateTimeService;
 
@@ -33,16 +34,20 @@ public class FullYearController {
 	
 	@Autowired
 	FullYearService fullYearService;
+	
+	@Autowired
+	IncomeService incomeService;
 
 	@RequestMapping("/full-year")
 	public String allYearInfomation(@RequestParam("year") int year, Model model) {
 		List<Category> categories = indexService.listCategories();
 		List<CategoryDetail> listCategoryDetail = fullYearService.listCategoryDetailBy(year);
+		List<Income> listIncome = incomeService.listIncomeBy(year);
 		
 		LocalDate currentdate = LocalDate.now();
 		int currentMonth = currentdate.getMonth().ordinal() + 1;
 		
-		List<FullYear> fullYears = of(year, listCategoryDetail, categories);
+		List<FullYear> fullYears = of(year, listCategoryDetail, categories, listIncome);
 		
 		model.addAttribute("categories", categories);
 		model.addAttribute("fullYears", fullYears);
@@ -55,19 +60,18 @@ public class FullYearController {
 	@RequestMapping(value = "addIncome", method = RequestMethod.POST)
 	@ResponseBody
 	public Income addIncome(@RequestBody Income income, Model model) {
-		//indexService.addNewCategoryBy(newCategoryDetail);
-		System.out.println(income);
+		incomeService.addIncome(income);
 		return income;
 	}
 	
-	private List<FullYear> of(int year, List<CategoryDetail> listCategoryDetail, List<Category> categories) {
+	private List<FullYear> of(int year, List<CategoryDetail> listCategoryDetail, List<Category> categories, List<Income> listIncome) {
 		List<FullYear> listFullYears = new ArrayList<FullYear>();
 		
 		
-		for(int i = 1 ; i <= 12 ; i++) {
-			List<Map<Integer, Amount>> listAmountByMonthList = getAmountOfMoneyBy(i, listCategoryDetail, categories);
-			FullYear fullYear = new FullYear(year, i, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, listAmountByMonthList);
-			Map<Integer, Amount> listTotalOfMonth = totalOfMonthBy(i, listCategoryDetail);
+		for(int month = 1 ; month <= 12 ; month++) {
+			List<Map<Integer, Amount>> listAmountByMonthList = getAmountOfMoneyBy(month, listCategoryDetail, categories);
+			FullYear fullYear = new FullYear(year, month, BigDecimal.ZERO, BigDecimal.ZERO, new Amount(totalSideIncomeBy(month, listIncome)), listAmountByMonthList);
+			Map<Integer, Amount> listTotalOfMonth = totalOfMonthBy(month, listCategoryDetail);
 			fullYear.setListTotalOfMonth(listTotalOfMonth);
 			listFullYears.add(fullYear);
 		}
@@ -102,5 +106,12 @@ public class FullYearController {
 		listTotalOfMonth.put(Integer.valueOf(month), new Amount(amount));
 		
 		return listTotalOfMonth;
+	}
+	
+	private BigDecimal totalSideIncomeBy(int month, List<Income> listIncome) {
+		return new BigDecimal(listIncome.stream()
+				.filter(income -> income.getMonth() == month)
+				.mapToLong(income -> income.getAmount().getLongValueOfAmount())
+				.sum());
 	}
 }
