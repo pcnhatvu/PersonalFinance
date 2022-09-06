@@ -21,6 +21,7 @@ import finance.model.CategoryDetail;
 import finance.model.FullYear;
 import finance.model.Income;
 import finance.model.core.Amount;
+import finance.model.core.IncomeType;
 import finance.service.FullYearService;
 import finance.service.IncomeService;
 import finance.service.IndexService;
@@ -70,11 +71,14 @@ public class FullYearController {
 		
 		for(int month = 1 ; month <= 12 ; month++) {
 			List<Map<Integer, Amount>> listAmountByMonthList = getAmountOfMoneyBy(month, listCategoryDetail, categories);
-			FullYear fullYear = new FullYear(year, month, BigDecimal.ZERO, BigDecimal.ZERO, new Amount(totalSideIncomeBy(month, listIncome)), listAmountByMonthList);
+			FullYear fullYear = new FullYear(year, month, new Amount(totalSideIncomeBy(month, listIncome, IncomeType.MAIN)), new Amount(totalSideIncomeBy(month, listIncome, IncomeType.SIDE)), listAmountByMonthList);
 			Map<Integer, Amount> listTotalOfMonth = totalOfMonthBy(month, listCategoryDetail);
+			fullYear.setAmountOfBeginning(month == 4 ? Amount.ofDefault() : new Amount(fullYear.totalIncome().getAmount().subtract(totalUsedOfPreviousMonth(month - 1, listCategoryDetail))));
 			fullYear.setListTotalOfMonth(listTotalOfMonth);
 			listFullYears.add(fullYear);
 		}
+		
+		System.out.println(listFullYears);
 		
 		return listFullYears;
 	}
@@ -98,20 +102,24 @@ public class FullYearController {
 	private Map<Integer, Amount> totalOfMonthBy(int month, List<CategoryDetail> listCategoryDetail) {
 		Map<Integer, Amount> listTotalOfMonth = new HashMap<Integer, Amount>();
 		
-		BigDecimal amount = new BigDecimal(listCategoryDetail.stream()
-			.filter(categoryDetail -> categoryDetail.getMonth() == month)
-			.mapToLong(categoryDetail -> categoryDetail.getAmountUsed().getLongValueOfAmount())
-			.sum());
+		BigDecimal amount = totalUsedOfPreviousMonth(month, listCategoryDetail);
 		
 		listTotalOfMonth.put(Integer.valueOf(month), new Amount(amount));
 		
 		return listTotalOfMonth;
 	}
 	
-	private BigDecimal totalSideIncomeBy(int month, List<Income> listIncome) {
+	private BigDecimal totalSideIncomeBy(int month, List<Income> listIncome, IncomeType type) {
 		return new BigDecimal(listIncome.stream()
-				.filter(income -> income.getMonth() == month)
+				.filter(income -> income.getMonth() == month && income.isTheSameType(type))
 				.mapToLong(income -> income.getAmount().getLongValueOfAmount())
+				.sum());
+	}
+	
+	private BigDecimal totalUsedOfPreviousMonth(int month, List<CategoryDetail> listCategoryDetail) {
+		return new BigDecimal(listCategoryDetail.stream()
+				.filter(categoryDetail -> categoryDetail.getMonth() == month)
+				.mapToLong(categoryDetail -> categoryDetail.getAmountUsed().getLongValueOfAmount())
 				.sum());
 	}
 }

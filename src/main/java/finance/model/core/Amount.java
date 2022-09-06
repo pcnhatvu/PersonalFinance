@@ -35,6 +35,10 @@ public class Amount{
 		return value.intValue();
 	}
 
+	public static Amount ofDefault() {
+		return new Amount();
+	}
+	
 	@Override
 	public String toString() {
 		return "Amount [value=" + value + "]";

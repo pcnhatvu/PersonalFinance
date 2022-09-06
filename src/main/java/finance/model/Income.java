@@ -65,6 +65,10 @@ public class Income {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public boolean isTheSameType(IncomeType another) {
+		return this.type == another;
+	}
 
 	@Override
 	public String toString() {

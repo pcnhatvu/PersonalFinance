@@ -12,9 +12,9 @@ public class FullYear {
 	
 	private int month;
 	
-	private BigDecimal amountOfBeginning;
+	private Amount amountOfBeginning;
 	
-	private BigDecimal mainIncome;
+	private Amount mainIncome;
 	
 	private Amount sideIncome;
 	
@@ -26,12 +26,11 @@ public class FullYear {
 		super();
 	}
 
-	public FullYear(int year, int month, BigDecimal amountOfBeginning, BigDecimal mainIncome, Amount sideIncome,
+	public FullYear(int year, int month, Amount mainIncome, Amount sideIncome,
 			List<Map<Integer, Amount>> listAmountByMonth) {
 		super();
 		this.year = year;
 		this.month = month;
-		this.amountOfBeginning = amountOfBeginning;
 		this.mainIncome = mainIncome;
 		this.sideIncome = sideIncome;
 		this.listAmountByMonth = listAmountByMonth;
@@ -53,19 +52,15 @@ public class FullYear {
 		this.month = month;
 	}
 
-	public BigDecimal getAmountOfBeginning() {
-		return amountOfBeginning;
-	}
-
-	public void setAmountOfBeginning(BigDecimal amountOfBeginning) {
+	public void setAmountOfBeginning(Amount amountOfBeginning) {
 		this.amountOfBeginning = amountOfBeginning;
 	}
 
-	public BigDecimal getMainIncome() {
+	public Amount getMainIncome() {
 		return mainIncome;
 	}
 
-	public void setMainIncome(BigDecimal mainIncome) {
+	public void setMainIncome(Amount mainIncome) {
 		this.mainIncome = mainIncome;
 	}
 
@@ -88,11 +83,32 @@ public class FullYear {
 	public void setListTotalOfMonth(Map<Integer, Amount> listTotalOfMonth) {
 		this.listTotalOfMonth = listTotalOfMonth;
 	}
+	
+	public Amount totalIncome() {
+		return new Amount(mainIncome.getAmount().add(sideIncome.getAmount()));
+	}
+	
+	public Amount amountOfBeginning() {
+		if(month == 4 && year == 2022)
+			return new Amount(new BigDecimal(0));
+		return new Amount(amountRemaining().getAmount().add(totalIncome().getAmount()).subtract(totalUsedByMonth().getAmount()));
+	}
+	
+	public Amount amountRemaining() {
+		return new Amount(amountOfBeginning.getAmount().add(totalIncome().getAmount().subtract(totalUsedByMonth().getAmount())));
+	}
+	
+	public Amount totalUsedByMonth() {
+		return new Amount(new BigDecimal(listTotalOfMonth.entrySet().stream()
+				.mapToLong(amount -> amount.getValue().getLongValueOfAmount())
+				.sum()));
+				
+	}
 
 	@Override
 	public String toString() {
-		return "FullYear [year=" + year + ", month=" + month + ", amountOfBeginning=" + amountOfBeginning
-				+ ", mainIncome=" + mainIncome + ", sideIncome=" + sideIncome + ", listAmountByMonth="
-				+ listAmountByMonth + "]";
+		return "FullYear [year=" + year + ", month=" + month + ", mainIncome=" + mainIncome + ", sideIncome="
+				+ sideIncome + ", listAmountByMonth=" + listAmountByMonth + ", listTotalOfMonth=" + listTotalOfMonth
+				+ "]";
 	}
 }
