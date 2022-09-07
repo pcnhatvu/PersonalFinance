@@ -1,6 +1,7 @@
 package finance.model;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class FullYear {
 	
 	private int month;
 	
-	private Amount amountOfBeginning;
+	private Amount amountOfBeginning = Amount.ofDefault();
 	
 	private Amount mainIncome;
 	
@@ -20,7 +21,7 @@ public class FullYear {
 	
 	private List<Map<Integer, Amount>> listAmountByMonth;
 	
-	private Map<Integer, Amount> listTotalOfMonth;
+	private Map<Integer, Amount> listTotalOfMonth = new HashMap<Integer, Amount>();
 
 	public FullYear() {
 		super();
