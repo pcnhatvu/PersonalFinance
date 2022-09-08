@@ -74,14 +74,18 @@ public class FullYearController {
 			FullYear fullYear = new FullYear(year, month, new Amount(totalIncomeBy(month, listIncome, IncomeType.MAIN)), new Amount(totalIncomeBy(month, listIncome, IncomeType.SIDE)), listAmountByMonthList);
 			Map<Integer, Amount> listTotalOfMonth = totalOfMonthBy(month, listCategoryDetail);
 			
-			
 			fullYear.setAmountOfBeginning(month == 4 ? Amount.ofDefault() : 
 				new Amount(totalIncomeBy(month - 1, listIncome).subtract(totalUsedOfPreviousMonth(month - 1, listCategoryDetail))));
 			fullYear.setListTotalOfMonth(listTotalOfMonth);
-			BigDecimal a = totalIncomeBy(month - 1, listIncome);
-			BigDecimal b = totalUsedOfPreviousMonth(month - 1, listCategoryDetail);
-			BigDecimal c = totalIncomeBy(month - 2, listIncome).subtract(totalUsedOfPreviousMonth(month - 2, listCategoryDetail));
-			BigDecimal d = a.add(c).subtract(b);
+			BigDecimal totalPreviousIncome = totalIncomeBy(month - 1, listIncome);
+			BigDecimal totalUsedOfPreviousMonth = totalUsedOfPreviousMonth(month - 1, listCategoryDetail);
+			BigDecimal amountOfPreviousRemaining = new BigDecimal(0);
+			if(month >= 3) {
+				amountOfPreviousRemaining = listFullYears.get(month - 3).getAmountOfBeginning().getAmount();
+			}
+			BigDecimal remainingOfPreviosTotal = totalIncomeBy(month - 2, listIncome).subtract(totalUsedOfPreviousMonth(month - 2, listCategoryDetail)).add(amountOfPreviousRemaining);
+			BigDecimal remainingTotal = totalPreviousIncome.add(remainingOfPreviosTotal).subtract(totalUsedOfPreviousMonth);
+			fullYear.setAmountOfBeginning(new Amount(remainingTotal));
 			listFullYears.add(fullYear);
 		}
 		
