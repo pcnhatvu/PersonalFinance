@@ -1,7 +1,6 @@
 package finance.controller;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,15 +44,11 @@ public class FullYearController {
 		List<CategoryDetail> listCategoryDetail = fullYearService.listCategoryDetailBy(year);
 		List<Income> listIncome = incomeService.listIncomeBy(year);
 		
-		LocalDate currentdate = LocalDate.now();
-		int currentMonth = currentdate.getMonth().ordinal() + 1;
-		
 		List<FullYear> fullYears = of(year, listCategoryDetail, categories, listIncome);
 		
 		model.addAttribute("categories", categories);
 		model.addAttribute("fullYears", fullYears);
 		model.addAttribute("year", year);
-		model.addAttribute("currentMonth", currentMonth);
 		model.addAttribute("listMonthOfYear", DateTimeService.listMonthOfYear());
 		return "full-year";
 	}

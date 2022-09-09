@@ -28,7 +28,7 @@
    
    <select id="getAmountUsedBy" resultType="BigDecimal">
    		SELECT 
-   			amount_used as amountUsed.value
+   			amount_used as amountUsed
    		FROM 
    			CATEGORY_DETAIL
    		WHERE

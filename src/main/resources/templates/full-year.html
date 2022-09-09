@@ -19,8 +19,7 @@
 				<select class="form-control" id="month" th:name="month">
 				    <option th:each="month : ${listMonthOfYear}" 
 				    	th:value="${month.key}" 
-				    	th:utext="${month.value}"
-				    	th:selected="${month.key == currentMonth}">January</option>
+				    	th:utext="${month.value}">January</option>
 				</select>
 			</form>
 		</div>
@@ -134,8 +133,7 @@
 				    <option th:each="month : ${listMonthOfYear}"
 				    	th:if="${month.key != 0}"
 				    	th:value="${month.key}" 
-				    	th:utext="${month.value}"
-				    	th:selected="${month.key == currentMonth}"></option>
+				    	th:utext="${month.value}"></option>
 				</select>
 				<button onclick="addMainIncome();" class="btn btn-primary btn-sm">Add</button>
 			</div>
@@ -147,8 +145,7 @@
 				    <option th:each="month : ${listMonthOfYear}" 
 				    	th:if="${month.key != 0}"
 				    	th:value="${month.key}" 
-				    	th:utext="${month.value}"
-				    	th:selected="${month.key == currentMonth}"></option>
+				    	th:utext="${month.value}"></option>
 				</select>
 				<button onclick="addSideIncome();" class="btn btn-primary btn-sm">Add</button>
 			</div>
