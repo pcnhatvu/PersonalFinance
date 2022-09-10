@@ -133,7 +133,8 @@
 				    <option th:each="month : ${listMonthOfYear}"
 				    	th:if="${month.key != 0}"
 				    	th:value="${month.key}" 
-				    	th:utext="${month.value}"></option>
+				    	th:utext="${month.value}"
+				    	th:selected="${month.key == currentMonth}"></option>
 				</select>
 				<button onclick="addMainIncome();" class="btn btn-primary btn-sm">Add</button>
 			</div>
@@ -145,11 +146,37 @@
 				    <option th:each="month : ${listMonthOfYear}" 
 				    	th:if="${month.key != 0}"
 				    	th:value="${month.key}" 
-				    	th:utext="${month.value}"></option>
+				    	th:utext="${month.value}"
+				    	th:selected="${month.key == currentMonth}"></option>
 				</select>
 				<button onclick="addSideIncome();" class="btn btn-primary btn-sm">Add</button>
 			</div>
 		</div>
+	</div>
+	
+	<div class="container-fluid">
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<th class="month-row" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr>
+					<td>All Of Income</td>
+					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}">
+						<span th:each="income, rowStat : ${incomes.?[month == __${monthIndex.key}__]}">
+							<span th:if="${income.type.name == 'MAIN'}" th:text="|+ ${income.name}: |" style="color: #002bff;"></span>
+							<span th:if="${income.type.name == 'SIDE'}" th:text="|+ ${income.name}: |"></span>
+							<span th:text="${income.amount.asText}" style="font-weight: 600;"></span>
+							<br>
+						</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	
 </body>
