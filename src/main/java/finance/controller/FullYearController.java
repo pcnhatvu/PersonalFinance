@@ -61,7 +61,7 @@ public class FullYearController {
 	@RequestMapping(value = "addIncome", method = RequestMethod.POST)
 	@ResponseBody
 	public Income addIncome(@RequestBody Income income, Model model) {
-		incomeService.addIncome(income);
+		//incomeService.addIncome(income);
 		return income;
 	}
 	
