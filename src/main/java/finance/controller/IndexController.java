@@ -21,7 +21,7 @@ import finance.utils.DateTimeService;
 public class IndexController {
 	
 	@Autowired
-	IndexService indexService;
+	private IndexService indexService;
 
 	@RequestMapping("/index")
 	public String index(@RequestParam("year") int year, @RequestParam("month") int month, Model model) {

@@ -93,12 +93,6 @@ public class FullYear {
 		return new Amount(mainIncome.getAmount().add(sideIncome.getAmount()));
 	}
 	
-//	public Amount amountOfBeginning() {
-//		if(month == 4 && year == 2022)
-//			return new Amount(new BigDecimal(0));
-//		return new Amount(amountRemaining().getAmount().add(totalIncome().getAmount()).subtract(totalUsedByMonth().getAmount()));
-//	}
-	
 	public Amount amountRemaining() {
 		return new Amount(amountOfBeginning.getAmount().add(totalIncome().getAmount().subtract(totalUsedByMonth().getAmount())));
 	}
@@ -107,7 +101,6 @@ public class FullYear {
 		return new Amount(new BigDecimal(listTotalOfMonth.entrySet().stream()
 				.mapToLong(amount -> amount.getValue().getLongValueOfAmount())
 				.sum()));
-				
 	}
 
 	@Override
