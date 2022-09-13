@@ -13,11 +13,13 @@
 		<div>
 			<form th:action="@{/index}" style="display: flex;" id="form">
 				<select class="form-control" id="year" th:name="year">
-				    <option th:value="2022" th:utext="2022"></option>
-				    <option th:value="2023" th:utext="2023"></option>
+				    <option th:each="year : ${listYear}" 
+				    	th:value="${year.key}" 
+				    	th:utext="${year.value}"
+				    	th:selected="${year.key == currentYear}">2022</option>
 				</select>
 				<select class="form-control" id="month" th:name="month">
-				    <option th:each="month : ${listMonthOfYear}" 
+				    <option th:each="month : ${listMonth}" 
 				    	th:value="${month.key}" 
 				    	th:utext="${month.value}">January</option>
 				</select>
@@ -26,7 +28,7 @@
 		
 		<h3 style="color: blue; text-align: center;">Bảng theo dõi chi tiêu năm <span th:text="${year}"></span></h3>
 		<div style="color: #ff0081; text-align: center;">
-			<span style="border: 1px solid; padding: 5px;">Số tiền có trong tài khoản ngày 11/04/20220</span>
+			<span style="border: 1px solid; padding: 5px;">Số tiền có trong tài khoản bắt đầu từ ngày tích lũy: 11/04/2022</span>
 			<span style="color: #ff6f00; border: 1px solid; padding: 5px;">10,700,000 VNĐ</span>
 		</div>
 	</div>
@@ -36,13 +38,13 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th class="month-row" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></th>
+					<th class="month-row" th:each="month : ${listMonth}" th:if="${month.key != 0}" th:text="${month.value}"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td class="hightlight">Beginning</td>
-					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="amountOfBeginning">
+					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="amountOfBeginning">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:text="${fullYear.amountOfBeginning.asText}" th:data-value="${fullYear.amountOfBeginning.amount}" th:id="'beginning' + ${monthIndex.key}"></span>
 						</span>
@@ -50,7 +52,7 @@
 				</tr>
 				<tr>
 					<td>Main Income</td>
-					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="income hightlight">
+					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="income hightlight">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:text="${fullYear.mainIncome.asText}" th:data-value="${fullYear.mainIncome.amount}" th:id="'mainIncome' + ${monthIndex.key}"></span>
 						</span>
@@ -58,7 +60,7 @@
 				</tr>
 				<tr>
 					<td>Side Income</td>
-					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="income hightlight">
+					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="income hightlight">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:text="${fullYear.sideIncome.asText}" th:data-value="${fullYear.sideIncome.amount}" th:id="'sideIncome' + ${monthIndex.key}"></span>
 						</span>
@@ -67,7 +69,7 @@
 				
 				<tr>
 					<td>Total Income</td>
-					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="total-income hightlight">
+					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="total-income hightlight">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:text="${fullYear.totalIncome.asText}" th:data-value="${fullYear.totalIncome.amount}" th:id="'totalIncome' + ${monthIndex.key}"></span>
 						</span>
@@ -80,7 +82,7 @@
 				
 				<tr th:each="category : ${categories}">
 					<td th:text="${category.name}"></td>
-					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="amount">
+					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="amount">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:each="amountMap : ${fullYear.listAmountByMonth}">
 								<span th:each="amount : ${amountMap}" th:if="${amount.key == category.id}" th:text="${amount.value.asText}"></span>
@@ -91,7 +93,7 @@
 				
 				<tr>
 					<td class="hightlight">Total spending</td>
-					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="total-amount hightlight">
+					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="total-amount hightlight">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:each="amount : ${fullYear.listTotalOfMonth}">
 								<span th:text="${amount.value.asText}"></span>
@@ -106,7 +108,7 @@
 				
 				<tr>
 					<td class="hightlight">Amount at the end of the month</td>
-					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}" class="amountOfBeginning">
+					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="amountOfBeginning">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:text="${fullYear.amountRemaining.asText}" th:data-value="${fullYear.amountRemaining.amount}" th:id="'amountRemaining' + ${monthIndex.key}"></span>
 						</span>
@@ -130,7 +132,7 @@
 				<input type="text" placeholder="Main Income Name" class="form-control" id="name-main-income" >
 				<input type="number" placeholder="Amount" class="form-control" id="amount-main-income" >
 				<select class="form-control" id="month-main-income" th:name="month">
-				    <option th:each="month : ${listMonthOfYear}"
+				    <option th:each="month : ${listMonth}"
 				    	th:if="${month.key != 0}"
 				    	th:value="${month.key}" 
 				    	th:utext="${month.value}"
@@ -143,7 +145,7 @@
 				<input type="text" placeholder="Side Income Name" class="form-control" id="name-side-income" >
 				<input type="number" placeholder="Amount" class="form-control" id="amount-side-income" >
 				<select class="form-control" id="month-side-income" th:name="month">
-				    <option th:each="month : ${listMonthOfYear}" 
+				    <option th:each="month : ${listMonth}" 
 				    	th:if="${month.key != 0}"
 				    	th:value="${month.key}" 
 				    	th:utext="${month.value}"
@@ -159,14 +161,14 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th class="month-row" th:each="month : ${listMonthOfYear}" th:if="${month.key != 0}" th:text="${month.value}"></th>
+					<th class="month-row" th:each="month : ${listMonth}" th:if="${month.key != 0}" th:text="${month.value}"></th>
 				</tr>
 			</thead>
 			
 			<tbody>
 				<tr>
 					<td>All Of Income</td>
-					<td th:each="monthIndex : ${listMonthOfYear}" th:if="${monthIndex.key != 0}">
+					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}">
 						<span th:each="income, rowStat : ${incomes.?[month == __${monthIndex.key}__]}">
 							<span th:if="${income.type.name == 'MAIN'}" th:text="|+ ${income.name}: |" style="color: #002bff;"></span>
 							<span th:if="${income.type.name == 'SIDE'}" th:text="|+ ${income.name}: |"></span>

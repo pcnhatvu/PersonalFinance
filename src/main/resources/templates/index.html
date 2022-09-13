@@ -13,11 +13,13 @@
 		<div style="text-align: center; padding-bottom: 20px;">
 			<form th:action="@{/index}" style="display: flex;" id="form">
 				<select class="form-control" id="year" th:name="year">
-				    <option th:value="2022" th:utext="2022"></option>
-				    <option th:value="2023" th:utext="2023"></option>
+				    <option th:each="year : ${listYear}" 
+				    	th:value="${year.key}" 
+				    	th:utext="${year.value}"
+				    	th:selected="${year.key == currentYear}">2022</option>
 				</select>
 				<select class="form-control" id="month" th:name="month">
-				    <option th:each="month : ${listMonthOfYear}" 
+				    <option th:each="month : ${listMonth}" 
 				    	th:value="${month.key}" 
 				    	th:utext="${month.value}"
 				    	th:selected="${month.key == currentMonth}">January</option>

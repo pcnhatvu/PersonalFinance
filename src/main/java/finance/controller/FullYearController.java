@@ -49,7 +49,9 @@ public class FullYearController {
 		model.addAttribute("incomes", incomes);
 		model.addAttribute("year", year);
 		model.addAttribute("currentMonth", currentMonth);
-		model.addAttribute("listMonthOfYear", DateTimeService.listMonthOfYear());
+		model.addAttribute("currentYear", year);
+		model.addAttribute("listMonth", DateTimeService.listMonth());
+		model.addAttribute("listYear", DateTimeService.listYear());
 		
 		return "full-year";
 	}

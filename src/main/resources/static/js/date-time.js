@@ -1,4 +1,4 @@
-$('#month').on('change', function(event) {
+$('#month, #year').on('change', function(event) {
 	const form = $("#form");
 	form.submit();
 });

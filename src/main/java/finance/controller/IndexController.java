@@ -37,7 +37,9 @@ public class IndexController {
 		}
 		
 		model.addAttribute("currentMonth", month);
-		model.addAttribute("listMonthOfYear", DateTimeService.listMonthOfYear());
+		model.addAttribute("currentYear", year);
+		model.addAttribute("listMonth", DateTimeService.listMonth());
+		model.addAttribute("listYear", DateTimeService.listYear());
 		
 		return "index";
 	}
