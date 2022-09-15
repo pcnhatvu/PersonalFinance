@@ -51,7 +51,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Main Income</td>
+					<td class="hightlight">Main Income</td>
 					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="income hightlight">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:text="${fullYear.mainIncome.asText}" th:data-value="${fullYear.mainIncome.amount}" th:id="'mainIncome' + ${monthIndex.key}"></span>
@@ -59,7 +59,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Side Income</td>
+					<td class="hightlight">Side Income</td>
 					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="income hightlight">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:text="${fullYear.sideIncome.asText}" th:data-value="${fullYear.sideIncome.amount}" th:id="'sideIncome' + ${monthIndex.key}"></span>
@@ -68,7 +68,7 @@
 				</tr>
 				
 				<tr>
-					<td>Total Income</td>
+					<td class="hightlight">Total Income</td>
 					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="total-income hightlight">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:text="${fullYear.totalIncome.asText}" th:data-value="${fullYear.totalIncome.amount}" th:id="'totalIncome' + ${monthIndex.key}"></span>
@@ -81,7 +81,7 @@
 				</tr>
 				
 				<tr th:each="category : ${categories}">
-					<td th:text="${category.name}"></td>
+					<td class="hightlight" th:text="${category.name}"></td>
 					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}" class="amount">
 						<span th:each="fullYear, rowStat : ${fullYears.?[month == __${monthIndex.key}__]}">
 							<span th:each="amountMap : ${fullYear.listAmountByMonth}">
@@ -170,7 +170,7 @@
 					<td>All Of Income</td>
 					<td th:each="monthIndex : ${listMonth}" th:if="${monthIndex.key != 0}">
 						<span th:each="income, rowStat : ${incomes.?[month == __${monthIndex.key}__]}">
-							<span th:if="${income.type.name == 'MAIN'}" th:text="|+ ${income.name}: |" style="color: #002bff;"></span>
+							<span th:if="${income.type.name == 'MAIN'}" th:text="|+ ${income.name}: |" style="color: #002bff; font-weight: 700;"></span>
 							<span th:if="${income.type.name == 'SIDE'}" th:text="|+ ${income.name}: |"></span>
 							<span th:text="${income.amount.asText}" style="font-weight: 600;"></span>
 							<br>
