@@ -67,9 +67,9 @@ public class Category {
 								.collect(Collectors.toList());
 	}
 	
-	public Double totalOfAmountUsedBy(List<CategoryDetail> listCategoryDetail) {
+	public int totalOfAmountUsedBy(List<CategoryDetail> listCategoryDetail) {
 		return listCategoryDetail.stream()
-				.mapToDouble(categoryDetail -> categoryDetail.getAmountUsed().getLongValueOfAmount())
+				.mapToInt(categoryDetail -> categoryDetail.getAmountUsed().getIntValueOfAmount())
 				.sum();
 	}
 }

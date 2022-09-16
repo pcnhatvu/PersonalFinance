@@ -30,7 +30,7 @@
 		<div class="row" id="content">
 			<div class="col-md-8">
 				<div class="row">
-					<div class="col-md-6" th:each="category : ${listCategories}">
+					<div class="col-md-6" th:each="category : ${categories.asList}">
 						<table id="categories">
 							<thead>
 								<tr>
@@ -77,13 +77,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="category : ${listCategories}">
+						<tr th:each="category : ${categories.asList}">
 							<td th:text="${category.name}">
 							<td th:data-tabletotalmoney="${category.totalOfAmount}" th:id="'tableTotalMoney' + ${category.id}" th:text="${category.asTextTotalTable}">
 						</tr>
 						<tr>
 							<td>Total</td>
-							<td></td>
+							<td th:text="${categories.asTextTotal}"></td>
 						</tr>
 					</tbody>
 				</table>

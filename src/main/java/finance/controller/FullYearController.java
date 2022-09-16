@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import finance.model.Category;
+import finance.model.Categories;
 import finance.model.CategoryDetail;
 import finance.model.FullYears;
 import finance.model.Income;
@@ -35,14 +35,14 @@ public class FullYearController {
 
 	@RequestMapping("/full-year")
 	public String allYearInfomation(@RequestParam("year") int year, Model model) {
-		List<Category> categories = indexService.listCategories();
+		Categories categories = new Categories(indexService.listCategories());
 		List<CategoryDetail> listCategoryDetail = fullYearService.listCategoryDetailBy(year);
 		List<Income> incomes = incomeService.listIncomeBy(year);
 		
 		LocalDate currentdate = LocalDate.now();
 		int currentMonth = currentdate.getMonth().ordinal() + 1;
 		
-		FullYears fullYears = FullYears.of(year, listCategoryDetail, categories, incomes);
+		FullYears fullYears = FullYears.of(year, listCategoryDetail, categories.asList(), incomes);
 		
 		model.addAttribute("categories", categories);
 		model.addAttribute("fullYears", fullYears.asList());

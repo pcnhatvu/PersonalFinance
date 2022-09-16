@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import finance.model.Categories;
 import finance.model.Category;
 import finance.model.CategoryDetail;
 import finance.service.IndexService;
@@ -28,14 +29,16 @@ public class IndexController {
 		if(month == 0) {
 			return "redirect:/full-year?year=" + year;
 		}
-		List<Category> listCategories = indexService.listCategories();
-		model.addAttribute("listCategories", listCategories);
 		
-		for(Category category : listCategories) {
+		
+		Categories categories = new Categories(indexService.listCategories());
+		
+		for(Category category : categories.asList()) {
 			List<CategoryDetail> listCategoryDetail = indexService.listCategoryDetailBy(category.getId(), month, year);
 			category.setListCategoryDetail(listCategoryDetail);
 		}
 		
+		model.addAttribute("categories", categories);
 		model.addAttribute("currentMonth", month);
 		model.addAttribute("currentYear", year);
 		model.addAttribute("listMonth", DateTimeService.listMonth());
