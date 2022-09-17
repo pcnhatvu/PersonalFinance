@@ -31,7 +31,7 @@ public class Categories {
 	}
 	
 	public String asTextTotal() {
-		return "Total: " + formatter.format(totalSpend()) + " VNĐ";
+		return formatter.format(totalSpend()) + " VNĐ";
 	}
 	
 	public List<Category> asList() {

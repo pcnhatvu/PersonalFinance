@@ -83,7 +83,7 @@
 						</tr>
 						<tr>
 							<td>Total</td>
-							<td th:text="${categories.asTextTotal}"></td>
+							<td th:data-totalmoneyofmonth="${categories.totalSpend}" th:id="totalMoneyOfMonth" th:text="${categories.asTextTotal}"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -108,6 +108,7 @@
 		
 		function addMoneyByCategoryDetailIdBy(categoryDetailId, categoryId) {
 		    var amount = $("#plusMoney" + categoryDetailId.value);
+
 		   	$.ajax({
 		        type: 'POST',
 		        url: '/updatePriceByCategoryDetailId',
@@ -126,6 +127,10 @@
 		        	
 		        	$("#tableTotalMoney" + categoryId).data('tabletotalmoney', (+amount.val() + tableTotalMoney));
 		        	$("#tableTotalMoney" + categoryId).text(formatMoney(+amount.val() + tableTotalMoney));
+		        	
+		        	let totalMoneyOfMonth = $("#totalMoneyOfMonth").data('totalmoneyofmonth');
+		        	$("#totalMoneyOfMonth").data('totalmoneyofmonth', (+amount.val() + totalMoneyOfMonth));
+		        	$("#totalMoneyOfMonth").text(formatMoney(+amount.val() + totalMoneyOfMonth));
 		        	
 		        	$("#plusMoney" + categoryDetailId.value).val('');
 		        	
