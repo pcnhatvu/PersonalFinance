@@ -14,8 +14,6 @@
   padding: 2px;
 }
 
-#categories tr:nth-child(even){background-color: #f2f2f2;}
-
 #categories tr:hover {background-color: #ddd;}
 
 #categories th {
@@ -23,7 +21,6 @@
   padding-bottom: 2px;
   text-align: left;
   color: white;
-  background-color: #04AA6D;
 }
 
 input {
@@ -42,15 +39,33 @@ input {
   padding: 2px;
 }
 
-#summary tr:nth-child(even){background-color: #f2f2f2;}
-
 #summary tr:hover {background-color: #ddd;}
 
 #summary th {
   padding-top: 2px;
   padding-bottom: 2px;
   text-align: left;
-  background-color: yellow;
+  background-color: #FFFF00;
   color: black;
+}
+
+.one-color {
+	background-color: #ED7D31;
+}
+
+.two-color {
+	 background-color: #70AD47;
+}
+
+.four-color {
+	 background-color: #4472C4;
+}
+
+.five-color {
+	 background-color: #FF0000;
+}
+
+.six-color {
+	 background-color: #FFC000;
 }
 

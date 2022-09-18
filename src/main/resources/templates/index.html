@@ -33,10 +33,42 @@
 					<div class="col-md-6" th:each="category : ${categories.asList}">
 						<table id="categories">
 							<thead>
-								<tr>
+								<tr th:if="${category.id == 1}" class="one-color">
 									<th colspan="3" style="font-size: 18px;" th:text="${category.name}">Ăn</th>
 								</tr>
-								<tr>
+								<tr th:if="${category.id == 1}" class="one-color">
+									<th style="width: 25%;">Category</th>
+									<th style="width: 30%;">Total</th>
+									<th style="width: 45%;">Money Plus</th>
+								</tr>
+								<tr th:if="${category.id == 2}" class="two-color">
+									<th colspan="3" style="font-size: 18px;" th:text="${category.name}">Ăn</th>
+								</tr>
+								<tr th:if="${category.id == 2}" class="two-color">
+									<th style="width: 25%;">Category</th>
+									<th style="width: 30%;">Total</th>
+									<th style="width: 45%;">Money Plus</th>
+								</tr>
+								<tr th:if="${category.id == 4}" class="four-color">
+									<th colspan="3" style="font-size: 18px;" th:text="${category.name}">Ăn</th>
+								</tr>
+								<tr th:if="${category.id == 4}" class="four-color">
+									<th style="width: 25%;">Category</th>
+									<th style="width: 30%;">Total</th>
+									<th style="width: 45%;">Money Plus</th>
+								</tr>
+								<tr th:if="${category.id == 5}" class="five-color">
+									<th colspan="3" style="font-size: 18px;" th:text="${category.name}">Ăn</th>
+								</tr>
+								<tr th:if="${category.id == 5}" class="five-color">
+									<th style="width: 25%;">Category</th>
+									<th style="width: 30%;">Total</th>
+									<th style="width: 45%;">Money Plus</th>
+								</tr>
+								<tr th:if="${category.id == 6}" class="six-color">
+									<th colspan="3" style="font-size: 18px;" th:text="${category.name}">Ăn</th>
+								</tr>
+								<tr th:if="${category.id == 6}" class="six-color">
 									<th style="width: 25%;">Category</th>
 									<th style="width: 30%;">Total</th>
 									<th style="width: 45%;">Money Plus</th>
@@ -48,7 +80,7 @@
 									<td th:id="'amountUsed' + ${listCategoryDetail.id}" th:text="${listCategoryDetail.amountUsed.asText()}"></td>
 									<td style="display: flex;">
 										<input style="width: 70%;" type="number" class="form-control" th:id="'plusMoney' + ${listCategoryDetail.id}" placeholder="Plus +++">
-										<button th:onclick="'addMoneyByCategoryDetailIdBy(this,' + ${category.id} + ');'" th:value="${listCategoryDetail.id}" class="btn btn-primary btn-sm">Add</button>
+										<button th:onclick="'addMoneyByCategoryDetailIdBy(this,' + ${category.id} + ');'" th:value="${listCategoryDetail.id}" class="btn btn-info btn-sm">Add</button>
 									</td>
 								</tr>
 								<tr>
@@ -60,7 +92,7 @@
 										<input type="text" class="form-control" th:id="'addNewCategory' + ${category.id}" placeholder="Category name">
 									</td>
 									<td>
-										<button onclick="addNewCategory(this);" th:value="${category.id}" class="btn btn-primary btn-sm">Add new category</button>
+										<button onclick="addNewCategory(this);" th:value="${category.id}" class="btn btn-info btn-sm">Add new category</button>
 									</td>
 								</tr>
 							</tbody>
@@ -78,11 +110,15 @@
 					</thead>
 					<tbody>
 						<tr th:each="category : ${categories.asList}">
-							<td th:text="${category.name}">
+							<td th:text="${category.name}" th:if="${category.id == 1}" class="one-color">
+							<td th:text="${category.name}" th:if="${category.id == 2}" class="two-color">
+							<td th:text="${category.name}" th:if="${category.id == 4}" class="four-color">
+							<td th:text="${category.name}" th:if="${category.id == 5}" class="five-color">
+							<td th:text="${category.name}" th:if="${category.id == 6}" class="six-color">
 							<td th:data-tabletotalmoney="${category.totalOfAmount}" th:id="'tableTotalMoney' + ${category.id}" th:text="${category.asTextTotalTable}">
 						</tr>
 						<tr>
-							<td>Total</td>
+							<td style="background-color: #FF99FF;">Total</td>
 							<td th:data-totalmoneyofmonth="${categories.totalSpend}" th:id="totalMoneyOfMonth" th:text="${categories.asTextTotal}"></td>
 						</tr>
 					</tbody>
@@ -191,7 +227,7 @@
 		
 		function loadChart() {
 			Highcharts.chart('chart', {
-			    colors: ['#01BAF2', '#f6fa4b', '#FAA74B', '#baf201', '#f201ba'],
+			    colors: ['#ED7D31', '#70AD47', '#4472C4', '#FF0000', '#FFC000'],
 			    chart: {
 			        type: 'pie'
 			    },
