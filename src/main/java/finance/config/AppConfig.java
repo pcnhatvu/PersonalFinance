@@ -11,6 +11,11 @@ public class AppConfig {
 
 	@Bean
 	public DataSource dataSource() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		return new DriverManagerDataSource("jdbc:mysql://localhost:3306/personal_finance", "root", "123456");
 	}
 }

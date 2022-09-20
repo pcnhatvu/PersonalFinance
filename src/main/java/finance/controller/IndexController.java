@@ -30,7 +30,6 @@ public class IndexController {
 			return "redirect:/full-year?year=" + year;
 		}
 		
-		
 		Categories categories = new Categories(indexService.listCategories());
 		
 		for(Category category : categories.asList()) {
